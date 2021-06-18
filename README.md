@@ -4,9 +4,7 @@
 
 ### Moving Averages
 
-[SMA Cross](https://github.com/PirateCrypto/TradingView-Scripts/blob/main/Indicators/%5BPirate%5D%20SMA%20Cross)
-
-[EMA Cross](https://github.com/PirateCrypto/TradingView-Scripts/blob/main/Indicators/%5BPirate%5D%20EMA%20Cross)
+[2MA Cross](https://github.com/PirateCrypto/TradingView-Scripts/blob/main/Indicators/%5BPirate%5D%202MA%20Cross)
 
 [Triple EMA](https://github.com/PirateCrypto/TradingView-Scripts/blob/main/Indicators/%5BPirate%5D%20Triple%20EMA)
 

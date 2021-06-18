@@ -1,0 +1,89 @@
+// © Pirate
+//@version=4
+study(title="[Pirate] 2 Moving Averages and Cross", shorttitle="2MA Cross", overlay=true)
+
+//-------------------------------------//
+//----------Default Variables----------//
+//-------------------------------------//
+fColorD=color.new(#1c4670, 5) // Fast MA Color - Blue
+sColorD=color.new(#1dc690, 5) // Slow MA Color - Neon Green
+gcColorD=color.new(#1dc690, 5) // Golden Cross Color - Neon Green
+dcColorD=color.new(#1c4670, 5) // Death Cross Color - Blue
+gctColorD=color.new(#eaeae0, 0) // Golden Cross Text Color - Ivory
+dctColorD=color.new(#eaeae0, 0) // Death Cross Text Color - Ivory
+noColor=color.new(#ffffff, 100) // No Color
+
+//---------------------------------------------//
+//----------Configurable Menu Options----------//
+//---------------------------------------------//
+oSource=input(title="Source:", type=input.source, defval=close) // Source
+// Moving Average Type
+oMA = input(title="Moving Average Type:", defval="Exponential", options=[
+     "Exponential",
+     "Simple",
+     "Running",
+     "Weighted",
+     "Volume-Weighted"])
+dFast=input(title="[Enable/Disable] Fast MA",type=input.bool, defval=true) // Enable/Disable Fast MA
+dSlow=input(title="[Enable/Disable] Slow MA", type=input.bool, defval=true) // Enable/Disable Slow MA
+fPeriod=input(title="Fast MA Period:", type=input.integer, defval=50) // Fast MA Time
+sPeriod=input(title="Slow MA Period:", type=input.integer, defval=200) // Slow MA Time
+fColor=input(title="Fast MA Color:", type=input.color, defval=fColorD) // Fast MA Color
+sColor=input(title="Slow MA Color:", type=input.color, defval=sColorD) // Slow MA Color
+fWidth=input(title="Fast MA Line Width:", type=input.integer, defval=2, minval=1, maxval=4) // Fast MA LW
+sWidth=input(title="Slow MA Line Width:", type=input.integer, defval=2, minval=1, maxval=4) // Slow MA LW
+dGC=input(title="[Enable/Disable] Golden Cross",type=input.bool, defval=true) // Enable/Disable Golden Cross
+dDC=input(title="[Enable/Disable] Death Cross", type=input.bool, defval=true) // Enable/Disable Death Cross
+gcColor=input(title="Golden Cross Color:", type=input.color, defval=gcColorD) // Golden Cross Color
+dcColor=input(title="Death Cross Color:", type=input.color, defval=dcColorD) // Death Cross Color
+dCT=input(title="[Enable/Disable] Cross Text", type=input.bool, defval=true) // Enable/Disable Cross Text
+gctColor=input(title="Golden Cross Text Color:", type=input.color, defval=gctColorD) // Golden Cross Text Color
+dctColor=input(title="Death Cross Text Color:", type=input.color, defval=dctColorD) // Death Cross Text Color
+
+//---------------DO NOT CHANGE---------------//
+//-----------------Functions-----------------//
+//---------------DO NOT CHANGE---------------//
+// Fast Moving Average Variable
+fMA=(oMA == "Exponential" ? ema(oSource, fPeriod) :
+     oMA == "Simple" ? sma(oSource, fPeriod) :
+     oMA == "Running" ? rma(oSource, fPeriod) :
+     oMA == "Weighted" ? wma(oSource, fPeriod) :
+     oMA == "Volume-Weighted" ? vwma(oSource, fPeriod) :
+     na)
+// Slow Moving Average Variable
+sMA=(oMA == "Exponential" ? ema(oSource, sPeriod) :
+     oMA == "Simple" ? sma(oSource, sPeriod) :
+     oMA == "Running" ? rma(oSource, sPeriod) :
+     oMA == "Weighted" ? wma(oSource, sPeriod) :
+     oMA == "Volume-Weighted" ? vwma(oSource, sPeriod) :
+     na)
+gCross=crossover(fMA, sMA) // Golden Cross Variable
+dCross=crossunder(fMA, sMA) // Death Cross Variable
+// Plot Fast MA
+plot(dFast ? fMA : na,
+     title="Fast MA",
+     linewidth=fWidth,
+     color=fColor)
+// Plot Slow MA
+plot(dSlow ? sMA : na,
+     title="Slow MA",
+     linewidth=sWidth,
+     color=sColor)
+// Plot Golden Cross
+plotshape(dGC ? gCross : na,
+     title="Golden Cross",
+     style=shape.triangleup,
+     color=gcColor,
+     location=location.belowbar,
+     size=size.small,
+     text="GC",
+     textcolor=dCT ? gctColor : noColor)
+// Plot Death Cross
+plotshape(dDC ? dCross : na,
+     title="Death Cross",
+     style=shape.triangledown,
+     color=dcColor,
+     location=location.abovebar,
+     size=size.small,
+     text="DC",
+     textcolor=dCT ? dctColor : noColor)

@@ -1,0 +1,26 @@
+// © Pirate
+//@version=4
+study(title="[Pirate] T3 Moving Average",shorttitle="T3 MA",overlay=true)
+
+//-------------------------------------//
+//----------Default Variables----------//
+//-------------------------------------//
+l=input(title="Length",type=input.integer,minval=1,defval=5) // Length
+a=input(title="Alpha",type=input.float,minval=0,maxval=1,defval=0.7) // Alpha
+s=input(title="Source",type=input.source,defval=close) // Source
+tColorD=color.new(#4b2a62,5)
+
+//---------------------------------------------//
+//----------Configurable Menu Options----------//
+//---------------------------------------------//
+sColor=input(title="T3 Color",type=input.color,defval=tColorD) // T3 Color
+fWidth=input(title="T3 Line Width", type=input.integer, defval=2, minval=1, maxval=4) // T3 LW
+
+//---------------DO NOT CHANGE---------------//
+//-----------------Functions-----------------//
+//---------------DO NOT CHANGE---------------//
+gd(series,seriesLength,v)=>
+    ema(series,seriesLength)*(1+a)-ema(ema(series,seriesLength),seriesLength)*a
+t3(s,l,a)=>
+    gd(gd(gd(s,l,a),l,a),l,a)
+plot(t3(s,l,a),color=tColorD, linewidth=fWidth)

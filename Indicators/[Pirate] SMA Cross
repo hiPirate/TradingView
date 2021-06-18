@@ -1,0 +1,45 @@
+// © Pirate
+//@version=4
+
+study("[Pirate] SMA Cross", overlay=true)
+
+//-------------------------------------//
+//----------Default Variables----------//
+//-------------------------------------//
+fColorD=color.new(#6930c3, 5) // Fast SMA Color - Purple
+sColorD=color.new(#4ea8de, 5) // Slow SMA Color - Teal
+gcColorD=color.new(#64dfdf, 5) // Golden Cross Color - Light Teal
+dcColorD=color.new(#5e60ce, 5) // Death Cross Color - Light Purple
+gctColorD=color.new(#ffffff, 0) // Golden Cross Text Color - White
+dctColorD=color.new(#ffffff, 0) // Death Cross Text Color - White
+
+//---------------------------------------------//
+//----------Configurable Menu Options----------//
+//---------------------------------------------//
+oSource=input(title="Source", type=input.source, defval=close) // Source
+dFast=input(title="Enable/Disable Fast SMA",type=input.bool, defval=true) // Enable/Disable Fast SMA
+dSlow=input(title="Enable/Disable Slow SMA", type=input.bool, defval=true) // Enable/Disable Slow SMA
+fPeriod=input(title="Fast SMA Period (Days)", type=input.integer, defval=50) // Fast SMA Time
+sPeriod=input(title="Slow SMA Period (Days)", type=input.integer, defval=200) // Slow SMA Time
+fColor=input(title="Fast SMA Color", type=input.color, defval=fColorD) // Fast SMA Color
+sColor=input(title="Slow SMA Color", type=input.color, defval=sColorD) // Slow SMA Color
+fWidth=input(title="Fast SMA Line Width", type=input.integer, defval=2, minval=1, maxval=4) // Fast SMA LW
+sWidth=input(title="Slow SMA Line Width", type=input.integer, defval=2, minval=1, maxval=4) // Slow SMA LW
+dGC=input(title="Enable/Disable Golden Cross",type=input.bool, defval=true) // Enable/Disable Golden Cross
+dDC=input(title="Enable/Disable Death Cross", type=input.bool, defval=true) // Enable/Disable Death Cross
+gcColor=input(title="Golden Cross Color", type=input.color, defval=gcColorD) // Golden Cross Color
+dcColor=input(title="Death Cross Color", type=input.color, defval=dcColorD) // Death Cross Color
+gctColor=input(title="Golden Cross Text Color", type=input.color, defval=gctColorD) // Golden Cross Text Color
+dctColor=input(title="Death Cross Text Color", type=input.color, defval=dctColorD) // Death Cross Text Color
+
+//---------------DO NOT CHANGE---------------//
+//-----------------Functions-----------------//
+//---------------DO NOT CHANGE---------------//
+fSMA=sma(oSource, fPeriod) // Fast SMA Variable
+sSMA=sma(oSource, sPeriod) // Slow SMA Variable
+gCross=crossover(fSMA, sSMA) // Golden Cross Variable
+dCross=crossunder(fSMA, sSMA) // Death Cross Variable
+plot(dFast ? fSMA : na, linewidth=fWidth, color=fColor) // Plot Fast SMA
+plot(dSlow ? sSMA : na, linewidth=sWidth, color=sColor) // Plot Slow SMA
+plotshape(dGC ? gCross : na, style=shape.triangleup, color=gcColor, location=location.belowbar, size=size.small, text="GC", textcolor=gctColor) // Plot Golden Cross
+plotshape(dDC ? dCross : na, style=shape.triangledown, color=dcColor, location=location.abovebar, size=size.small, text="DC", textcolor=dctColor) // Plot Death Cross

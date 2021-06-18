@@ -9,12 +9,12 @@
 
 ---
 
-**[Triple EMA (TEMA)](https://github.com/PirateCrypto/TradingView/blob/main/Indicators/%5BPirate%5D%20Triple%20EMA)**
+**[Triple Exponential Moving Average (TEMA)](https://github.com/PirateCrypto/TradingView/blob/main/Indicators/%5BPirate%5D%20Triple%20EMA)**
 >The triple exponential moving average (TEMA) was designed to smooth price fluctuations, thereby making it easier to identify trends without the lag associated with traditional moving averages (MA). It does this by taking multiple exponential moving averages (EMA) of the original EMA and subtracting out some of the lag. The TEMA is used like other MAs. It can help identify trend direction, signal potential short-term trend changes or pullbacks, and provide support or resistance.
 
 ---
 
-**[T3 MA](https://github.com/PirateCrypto/TradingView/blob/main/Indicators/%5BPirate%5D%20T3%20MA)**
+**[T3 Moving Average](https://github.com/PirateCrypto/TradingView/blob/main/Indicators/%5BPirate%5D%20T3%20MA)**
 >The T3 MA incorporates a smoothing technique which allows it to plot curves more gradual than ordinary moving averages and with a smaller lag. Its smoothness is derived from the fact that it is a weighted sum of a single EMA , double EMA , triple EMA and so on. When a trend is formed, the price action will stay above or below the trend during most of its progression and will hardly be touched by any swings. Thus, a confirmed penetration of the T3 MA and the lack of a following reversal often indicates the end of a trend.
 >
 >The T3 MA generally produces entry signals similar to other moving averages and thus is traded largely in the same manner. Here are several assumptions:

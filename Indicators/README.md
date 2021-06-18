@@ -2,7 +2,7 @@
 
 ## Moving Averages
 
-**[2 Moving Averages and Cross](https://github.com/PirateCrypto/TradingView/blob/main/Indicators/%5BPirate%5D%202MA%20Cross)**
+**[2 Moving Averages and Golden/Death Crosses](https://github.com/PirateCrypto/TradingView/blob/main/Indicators/%5BPirate%5D%202MA%20Cross)**
 >A moving-average crossover occurs when, on plotting two moving averages each based on different degrees of smoothing, the traces of these moving averages cross. It does not predict future direction but shows trends. This indicator uses two moving averages, a slower moving average and a faster moving average. The faster moving average is a short term moving average.
 >
 >The 2MA Cross indicator provides 2 plotted moving averages of types; EMA, SMA, RMA, WMA and VWMA. This also provides Golden and Death cross plot points and a wide variety of customization options.

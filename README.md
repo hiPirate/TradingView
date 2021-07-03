@@ -24,3 +24,8 @@
 >If the price action is above the T3 MA and the indicator is headed upward, then we have a bullish trend and should only enter long trades (advisable for novice/intermediate traders). If the price is below the T3 MA and it is edging lower, then we have a bearish trend and should limit entries to short. Below you can see it visualized in a trading platform.
 
 ---
+
+**[Highs and Lows](https://github.com/PirateCrypto/TradingView/blob/main/Indicators/%5BPirate%5D%20Highs%20and%20Lows.pine)**
+> Right now it's very rough... I will add more information as it progresses.
+
+---

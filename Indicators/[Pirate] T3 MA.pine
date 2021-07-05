@@ -23,4 +23,4 @@ gd(series,seriesLength,v)=>
     ema(series,seriesLength)*(1+a)-ema(ema(series,seriesLength),seriesLength)*a
 t3(s,l,a)=>
     gd(gd(gd(s,l,a),l,a),l,a)
-plot(t3(s,l,a),color=tColorD, linewidth=fWidth)
+plot(t3(s,l,a),color=sColor, linewidth=fWidth)

@@ -12,31 +12,33 @@ RED=color.new(#c0553f, 0)
 GOLDEN=color.new(#fbc02d, 0)
 IVORY=color.new(#eaeae0, 0)
 LIMIT=500
-LONG_GROUP="Long-Term Moving Average"
-SHORT_GROUP="Short-Term Moving Average"
-RATIO_GROUP="Pirate Ratio [(L+S)/2]"
+MA_GROUP="Long/Short Moving Averages"
+RATIO_GROUP="Golden Ratio = Long MA + Short MA"
+BAR_GROUP="Colored Bars"
 SOURCE=input(title="Source",type=input.source,defval=close)
 WEIGHT=input(title="Weight",defval="Weighted",
      options=["Exponential","Simple","Running","Weighted","Volume-Weighted"])
 RATIO_DEFAULT="89/144"
 RATIO=input(
-     title="Fibonacci MAs",
+     title="Long/Short Ratio",
+     group=MA_GROUP,
      defval=RATIO_DEFAULT, 
      options=["1/2", "2/3", "3/5", "5/8", "8/13", "13/21", "21/34", "34/55", "55/89", "89/144", "144/233"])
+
 //---------------------------------------------------------------------------------------------------------//
 //-- Menu Options
 //---------------------------------------------------------------------------------------------------------//
 // Toggle Attribues On/Off
-Long_io=input(title="[Enable/Disable] Fast",group=LONG_GROUP,type=input.bool,defval=true)
-Short_io=input(title="[Enable/Disable] Slow",group=SHORT_GROUP,type=input.bool,defval=true)
-Ratio_io=input(title="[Enable/Disable] Ratio",group=RATIO_GROUP,type=input.bool,defval=true)
+Long_io=input(title="[Enable/Disable] Fast",group=MA_GROUP,type=input.bool,defval=true)
+Short_io=input(title="[Enable/Disable] Slow",group=MA_GROUP,type=input.bool,defval=true)
+
+Ratio_io=input(title="[Enable/Disable] Golden Ratio",group=RATIO_GROUP,type=input.bool,defval=true)
 Gcross_io=input(title="[Enable/Disable] Golden Cross",group=RATIO_GROUP,type=input.bool,defval=true)
 Dcross_io=input(title="[Enable/Disable] Death Cross",group=RATIO_GROUP,type=input.bool,defval=true)
-Ratio_text_io=input(title="[Enable/Disable] Cross Text",group=RATIO_GROUP,type=input.bool,defval=true)
 
 // Set Cross Text Color
 Gcross_text_color=input(title="Golden Cross Text Color:",group=RATIO_GROUP,type=input.color,defval=GOLDEN)
-Dcross_text_color=input(title="Death Cross Text Color:",group=RATIO_GROUP,type=input.color,defval=IVORY)
+Dcross_text_color=input(title="Death Cross Text Color",group=RATIO_GROUP,type=input.color,defval=IVORY)
 
 //---------------------------------------------------------------------------------------------------------//
 //-- Functions
@@ -72,7 +74,7 @@ var Long_period =
      na
 
 // Set Ratio Period
-var Ratio_period=((Long_period+Short_period)/2)
+var Ratio_period=((Long_period+Short_period))
 
 // Set Fast MA Weight
 Long_line=(
@@ -105,11 +107,23 @@ Ratio_line=(
 Gcross=crossunder(Long_line,Short_line)
 Dcross=crossover(Long_line,Short_line)
 
-// Plot Labels
-Gcross_label=(Gcross ? label.new(
-     x=bar_index,y=high,style=label.style_triangleup,color=GOLDEN,yloc=yloc.belowbar,textcolor=GOLDEN):na)
-Dcross_label=(Dcross ? label.new(
-     x=bar_index,y=high,style=label.style_triangledown,color=IVORY,yloc=yloc.abovebar,textcolor=IVORY):na)
+// Plot Golden Cross Label
+Gcross_label=(Gcross_io ? (Gcross ? label.new(
+     x=bar_index,
+     y=high,
+     style=label.style_triangleup,
+     color=GOLDEN,
+     yloc=yloc.belowbar,
+     textcolor=GOLDEN):na) :na)
+
+// Plot Death Cross Label
+Dcross_label=(Dcross_io ? (Dcross ? label.new(
+     x=bar_index,
+     y=high,
+     style=label.style_triangledown,
+     color=IVORY,
+     yloc=yloc.abovebar,
+     textcolor=IVORY):na) :na)
 
 // Set Label Text | String
 label.set_text(Gcross_label,tostring(close))
@@ -120,6 +134,25 @@ Gcross_price=tonumber(label.get_text(Gcross_label))
 Dcross_price=tonumber(label.get_text(Dcross_label))
 
 // Plot Lines
-var Long=plot(Long_io ? Long_line : na,title="Long MA",color=RED,linewidth=2)
-var Short=plot(Short_io ? Short_line : na,title="Short MA",color=GREEN,linewidth=2)
-var Ratio=plot(Ratio_io ? Ratio_line : na,title="Ratio",color=GOLDEN,linewidth=2)
+Long=plot(Long_io ? Long_line : na,title="Long MA",color=RED,linewidth=2)
+Short=plot(Short_io ? Short_line : na,title="Short MA",color=GREEN,linewidth=2)
+Ratio=plot(Ratio_io ? Ratio_line : na,title="Ratio",color=GOLDEN,linewidth=2)
+
+//---------------------------------------------------------------------------------------------------------//
+//-- Testing / Notes
+//---------------------------------------------------------------------------------------------------------//
+// Set & Plot Cross Price Lines
+// Connects each point from DC -> DC or GC -> GC
+// Want it to connect last known GC to DC.
+//Gcross_price_line=plot(valuewhen(crossunder(Long_line, Short_line), close, 1), color=GOLDEN)
+//Dcross_price_line=plot(valuewhen(crossover(Long_line, Short_line), close, 1), color=IVORY)
+
+// Set Bar Colors
+//Bars_io=input(title="[Enable/Disable] Colored Bars", group=BAR_GROUP,type=input.bool,defval=true)
+//Gcross_bar_color=input(title="Golden Cross Bar Color",group=BAR_GROUP,type=input.color,defval=GOLDEN)
+//Dcross_bar_color=input(title="Death Cross Bar Color",group=BAR_GROUP,type=input.color,defval=IVORY)
+// Change Bar Color
+// If bar ohlc4 is above Ratio_line then change bar color to Golden Cross
+// If bar ohlc4 is below Ratio_line then change bar color to Death Cross
+//barcolor(Ratio_line < ohlc4 ? Gcross_bar_color : na)
+//barcolor(Ratio_line > ohlc4 ? Dcross_bar_color : na)

@@ -27,3 +27,6 @@
 > Right now it's very rough... I will add more information as it progresses.
 
 ---
+
+**[Deconstructed FMAs + Crosses](https://github.com/PirateCrypto/TradingView/blob/main/Indicators/%5BPirate%5D%20Deconstructed%20FMAs%20%2B%20Crosses.pine)**
+> More information coming soon..
